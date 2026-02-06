@@ -54,13 +54,6 @@ class FSM:
     transitions: List[Transition]
     is_wait_state: Dict[str, bool]  
 
-@dataclass
-class HandshakeInterface:
-    protocol_type: str  
-    valid_signal: str
-    ready_signal: str
-    data_signals: List[str]
-    direction: str 
 ```
 
 ### Tools for AST Extraction
