@@ -1,27 +1,6 @@
 `timescale 1ns/1ps
 `default_nettype none
 
-// =============================================================================
-// DEADLOCK BUG INJECTION MODULE
-// =============================================================================
-// This module demonstrates a critical deadlock vulnerability that can occur
-// when the unified buffer's write pointer (wr_ptr) wraps around and overwrites
-// data that is still being read by the systolic array or VPU.
-//
-// DEADLOCK SCENARIO:
-// 1. wr_ptr reaches UNIFIED_BUFFER_WIDTH (128) and wraps to 0
-// 2. Simultaneously, a read operation is in progress from an address
-//    that is about to be overwritten
-// 3. The gradient descent write logic AND the regular write path both use wr_ptr
-// 4. This creates a race condition where:
-//    - wr_ptr gets stuck in an inconsistent state
-//    - The reader gets corrupted data
-//    - The system hangs waiting for data that was overwritten
-//
-// ROOT CAUSE: The blocking assignment wr_ptr = wr_ptr + 1 in the clocked block
-// creates a race condition when multiple processes try to update it
-// simultaneously with the wrap-around condition.
-// =============================================================================
 
 module unified_buffer_deadlock #(
     parameter UNIFIED_BUFFER_WIDTH = 128,
@@ -128,23 +107,14 @@ module unified_buffer_deadlock #(
             ub_rd_col_size_out <= 16'd0;
             ub_rd_col_size_valid_out <= 1'b0;
         end else begin
-            // =================================================================
-            // DEADLOCK BUG: The blocking assignment below creates a deadlock condition
-            // when wr_ptr wraps around and conflicts with grad_descent_ptr
-            // =================================================================
-
-            // DEADLOCK SCENARIO 1: Check for potential wrap-around collision
-            // When wr_ptr + 1 would wrap AND grad_descent_ptr is in the "danger zone"
+          
+          
             if ((wr_ptr == UNIFIED_BUFFER_WIDTH - 1) && (grad_descent_ptr > UNIFIED_BUFFER_WIDTH - 8)) begin
-                // DEADLOCK CONDITION: wr_ptr will wrap to 0 on next write
-                // but grad_descent_ptr is still in high address range
-                // When both try to write simultaneously, the blocking assignment
-                // causes a race condition that can hang the system
+               
                 deadlock_detected <= 1'b1;
             end
 
-            // Regular write path (VPU -> UB)
-            // Port 0
+          
             if (ub_wr_valid_in_0) begin
                 ub_memory[wr_ptr] <= ub_wr_data_in_0;
                 // BUGGY CODE: Blocking assignment in clocked block - creates deadlock
@@ -152,27 +122,21 @@ module unified_buffer_deadlock #(
                 wr_ptr = wr_ptr + 1;
             end
 
-            // Port 1
+          
             if (ub_wr_valid_in_1) begin
                 ub_memory[wr_ptr] <= ub_wr_data_in_1;
-                // BUGGY CODE: Blocking assignment in clocked block - creates deadlock
                 wr_ptr = wr_ptr + 1;
             end
 
-            // Gradient descent write path (VPU -> UB after backward pass)
-            // This can interleave with regular writes and cause deadlock
-            // when addresses overlap
+          
             if (grad_descent_enable) begin
-                // BUGGY CODE: No check if wr_ptr is being used by regular writes
-                // This can conflict with the logic above when pointers overlap
+             
                 ub_memory[grad_descent_ptr] <= grad_descent_data_in;
-                // BUGGY CODE: Blocking assignment that can conflict with wr_ptr updates
+            
                 grad_descent_ptr = grad_descent_ptr + 1;
             end
 
-            // DEADLOCK SCENARIO 2: Double-write collision
-            // If both regular write and gradient write try to access the same
-            // memory location, the blocking assignments can cause system hang
+          
             if ((wr_ptr == grad_descent_ptr) && deadlock_detected) begin
                 // System is now deadlocked - both writers waiting for the other
                 // but the blocking assignment prevents either from proceeding

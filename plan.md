@@ -194,7 +194,6 @@ Output: ResourceDependencyGraph
 def detect_deadlock_cycles(rdg: ResourceDependencyGraph) -> List[List[str]]:
     """
     Find cycles in the resource dependency graph.
-    Unlike LLM-IFT (which uses DAG), deadlocks require cycle detection.
     """
     cycles = []
 
