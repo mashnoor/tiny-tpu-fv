@@ -2,14 +2,14 @@
 `default_nettype none
 
 module bias_parent(
-    input logic clk,
-    input logic rst,
+    input wire logic clk,
+    input wire logic rst,
 
-    input logic signed [15:0] bias_scalar_in_1,
-    input logic signed [15:0] bias_scalar_in_2, // bias scalars fetched from the unified buffer (rename it to bias_scalar_ub_in)
+    input wire logic signed [15:0] bias_scalar_in_1,
+    input wire logic signed [15:0] bias_scalar_in_2, // bias scalars fetched from the unified buffer (rename it to bias_scalar_ub_in)
 
-    output logic bias_Z_valid_out_1,
-    output logic bias_Z_valid_out_2,
+    output var logic bias_Z_valid_out_1,
+    output var logic bias_Z_valid_out_2,
 
     input wire signed [15:0] bias_sys_data_in_1,
     input wire signed [15:0] bias_sys_data_in_2,
@@ -17,8 +17,8 @@ module bias_parent(
     input wire bias_sys_valid_in_1,
     input wire bias_sys_valid_in_2,
 
-    output logic signed [15:0] bias_z_data_out_1,
-    output logic signed [15:0] bias_z_data_out_2
+    output var logic signed [15:0] bias_z_data_out_1,
+    output var logic signed [15:0] bias_z_data_out_2
 
 ); 
     // Each bias module handles a feature column for a pre-activation matrix. 

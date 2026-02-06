@@ -4,16 +4,16 @@
 
 // child loss module for MSE backward pass (gradient computation)
 module loss_child (
-    input logic clk,
-    input logic rst,
+    input wire logic clk,
+    input wire logic rst,
     
-    input logic signed [15:0] H_in,
-    input logic signed [15:0] Y_in,
-    input logic valid_in,
-    input logic signed [15:0] inv_batch_size_times_two_in,  // 2/N as fixed-point input
+    input wire logic signed [15:0] H_in,
+    input wire logic signed [15:0] Y_in,
+    input wire logic valid_in,
+    input wire logic signed [15:0] inv_batch_size_times_two_in,  // 2/N as fixed-point input
     
-    output logic signed [15:0] gradient_out,
-    output logic valid_out
+    output var logic signed [15:0] gradient_out,
+    output var logic valid_out
 );
     
     // pipeline stages for MSE backward pass: (2/N) * (H - Y)

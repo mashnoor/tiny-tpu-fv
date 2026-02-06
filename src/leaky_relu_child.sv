@@ -2,13 +2,13 @@
 `default_nettype none
 
 module leaky_relu_child (
-    input logic clk,
-    input logic rst,
-    input logic lr_valid_in,
-    input logic signed [15:0] lr_data_in,
-    input logic signed [15:0] lr_leak_factor_in,
-    output logic signed [15:0] lr_data_out,
-    output logic lr_valid_out
+    input wire logic clk,
+    input wire logic rst,
+    input wire logic lr_valid_in,
+    input wire logic signed [15:0] lr_data_in,
+    input wire logic signed [15:0] lr_leak_factor_in,
+    output var logic signed [15:0] lr_data_out,
+    output var logic lr_valid_out
 );
 
     // fixed point module and storage

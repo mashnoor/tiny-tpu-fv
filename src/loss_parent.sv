@@ -2,22 +2,22 @@
 `default_nettype none
 
 module loss_parent (
-    input logic clk,
-    input logic rst,
+    input wire logic clk,
+    input wire logic rst,
     
-    input logic signed [15:0] H_1_in,
-    input logic signed [15:0] Y_1_in,
-    input logic signed [15:0] H_2_in,
-    input logic signed [15:0] Y_2_in,
+    input wire logic signed [15:0] H_1_in,
+    input wire logic signed [15:0] Y_1_in,
+    input wire logic signed [15:0] H_2_in,
+    input wire logic signed [15:0] Y_2_in,
     
-    input logic valid_1_in,
-    input logic valid_2_in,
+    input wire logic valid_1_in,
+    input wire logic valid_2_in,
     
-    input logic signed [15:0] inv_batch_size_times_two_in,  // 2/N as fixed-point input
-    output logic signed [15:0] gradient_1_out,
-    output logic signed [15:0] gradient_2_out,
-    output logic valid_1_out,
-    output logic valid_2_out
+    input wire logic signed [15:0] inv_batch_size_times_two_in,  // 2/N as fixed-point input
+    output var logic signed [15:0] gradient_1_out,
+    output var logic signed [15:0] gradient_2_out,
+    output var logic valid_1_out,
+    output var logic valid_2_out
 );
 
 // loss child #1 instantiation

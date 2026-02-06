@@ -2,16 +2,16 @@
 `default_nettype none
 
 module leaky_relu_derivative_child(
-    input logic clk,
-    input logic rst,
+    input wire logic clk,
+    input wire logic rst,
 
-    input logic lr_d_valid_in,
-    input logic signed [15:0] lr_d_data_in,
-    input logic signed [15:0] lr_leak_factor_in,
-    input logic signed [15:0] lr_d_H_data_in, // H data coming through
+    input wire logic lr_d_valid_in,
+    input wire logic signed [15:0] lr_d_data_in,
+    input wire logic signed [15:0] lr_leak_factor_in,
+    input wire logic signed [15:0] lr_d_H_data_in, // H data coming through
 
-    output logic lr_d_valid_out,
-    output logic signed [15:0] lr_d_data_out
+    output var logic lr_d_valid_out,
+    output var logic signed [15:0] lr_d_data_out
 );
     // fixed point module and storage
     logic signed [15:0] mul_out;

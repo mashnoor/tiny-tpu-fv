@@ -17,32 +17,32 @@
 */
 
 module vpu (
-    input logic clk,
-    input logic rst,
+    input wire logic clk,
+    input wire logic rst,
 
-    input logic [3:0] vpu_data_pathway, // 4-bits to signify which modules to route the inputs to (1 bit for each module)
+    input wire logic [3:0] vpu_data_pathway, // 4-bits to signify which modules to route the inputs to (1 bit for each module)
 
     // Inputs from systolic array
-    input logic signed [15:0] vpu_data_in_1,
-    input logic signed [15:0] vpu_data_in_2,
-    input logic vpu_valid_in_1,
-    input logic vpu_valid_in_2,
+    input wire logic signed [15:0] vpu_data_in_1,
+    input wire logic signed [15:0] vpu_data_in_2,
+    input wire logic vpu_valid_in_1,
+    input wire logic vpu_valid_in_2,
 
     // Inputs from UB
-    input logic signed [15:0] bias_scalar_in_1,             // For bias modules
-    input logic signed [15:0] bias_scalar_in_2,             // For bias modules
-    input logic signed [15:0] lr_leak_factor_in,            // For leaky relu modules
-    input logic signed [15:0] Y_in_1,                       // For loss modules
-    input logic signed [15:0] Y_in_2,                       // For loss modules
-    input logic signed [15:0] inv_batch_size_times_two_in,  // For loss modules
-    input logic signed [15:0] H_in_1,                       // For leaky relu derivative modules
-    input logic signed [15:0] H_in_2,                       // For leaky relu derivative modules 
+    input wire logic signed [15:0] bias_scalar_in_1,             // For bias modules
+    input wire logic signed [15:0] bias_scalar_in_2,             // For bias modules
+    input wire logic signed [15:0] lr_leak_factor_in,            // For leaky relu modules
+    input wire logic signed [15:0] Y_in_1,                       // For loss modules
+    input wire logic signed [15:0] Y_in_2,                       // For loss modules
+    input wire logic signed [15:0] inv_batch_size_times_two_in,  // For loss modules
+    input wire logic signed [15:0] H_in_1,                       // For leaky relu derivative modules
+    input wire logic signed [15:0] H_in_2,                       // For leaky relu derivative modules
 
     // Outputs to UB
-    output logic signed [15:0] vpu_data_out_1,
-    output logic signed [15:0] vpu_data_out_2,
-    output logic vpu_valid_out_1,
-    output logic vpu_valid_out_2
+    output var logic signed [15:0] vpu_data_out_1,
+    output var logic signed [15:0] vpu_data_out_2,
+    output var logic vpu_valid_out_1,
+    output var logic vpu_valid_out_2
 );
 
     // bias
