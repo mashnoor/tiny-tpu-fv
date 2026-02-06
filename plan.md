@@ -31,8 +31,7 @@
 
 - Parse SystemVerilog files to extract structural information
 - Identify modules, ports, signals, and their relationships
-- **Extract Finite State Machines (FSMs)** - critical for deadlock detection
-- Identify handshake protocols (valid/ready, request/grant)
+- Extract Finite State Machines (FSMs) 
 
 ### 2.2 AST Representation
 
